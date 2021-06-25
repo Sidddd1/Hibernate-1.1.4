@@ -13,7 +13,7 @@ public class UserDaoHibernateImpl  implements UserDao {
 
     @Override
     public void createUsersTable() {
-        System.out.println();
+        System.out.println("Second commit");
     }
 
     @Override
