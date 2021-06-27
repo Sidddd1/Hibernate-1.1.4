@@ -16,4 +16,6 @@ public interface UserDao {
     List<User> getAllUsers();
 
     void cleanUsersTable();
+
+    List<User> getPeopleOlderThan(byte age);
 }

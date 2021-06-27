@@ -12,33 +12,53 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
+        Statement statement = null;
         try (Connection connection = util.getConnection()) {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute("create table if not exists Users (" +
                     "ID bigint primary key auto_increment," +
                     "Name varchar(15) not null," +
                     "LastName varchar(15)," +
                     "Age tinyint)");
+
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
     public void dropUsersTable() {
+        Statement statement = null;
         try (Connection connection = util.getConnection()) {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute("drop table if exists Users");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
+        PreparedStatement preparedStatement = null;
         String sql = "insert into Users (Name, LastName, Age) values (?, ?, ?)";
         try (Connection connection = util.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
@@ -47,25 +67,45 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
     public void removeUserById(long id) {
         String sql = "delete from Users where ID = ?";
+        PreparedStatement preparedStatement1 = null;
         try (Connection connection = util.getConnection()) {
-            PreparedStatement preparedStatement1 = connection.prepareStatement(sql);
+            preparedStatement1 = connection.prepareStatement(sql);
             preparedStatement1.setLong(1, id);
             preparedStatement1.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            if (preparedStatement1 != null) {
+                try {
+                    preparedStatement1.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
+        Statement statement = null;
         try (Connection connection = util.getConnection()) {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from Users");
             while (resultSet.next()) {
                 User tUser = new User();
@@ -79,17 +119,42 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
         return list;
+
     }
 
     @Override
     public void cleanUsersTable() {
+        Statement statement = null;
         try (Connection connection = util.getConnection()) {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute("truncate table Users");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<User> getPeopleOlderThan(byte age) {
+        return null;
     }
 }
 
