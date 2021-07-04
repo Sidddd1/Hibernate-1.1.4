@@ -58,7 +58,7 @@ public class Util {
         return connection;
     }
 
-    public static SessionFactory getSessionFactory() {
+    public  SessionFactory getSessionFactory() {
         SessionFactory sessionFactory = null;
 
         Properties prop = new Properties();

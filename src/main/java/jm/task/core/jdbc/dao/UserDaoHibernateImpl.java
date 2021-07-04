@@ -3,15 +3,19 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private static SessionFactory sessionFactory = Util.getSessionFactory();
+//    private static SessionFactory sessionFactory = Util.getSessionFactory();
+    private static SessionFactory sessionFactory = Util.getInstance().getSessionFactory();
     public UserDaoHibernateImpl() {
     }
 
@@ -84,12 +88,22 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
+        Session session = null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
-            session.createQuery("delete User").executeUpdate();
-        } catch (Exception e) {
+            Query query = session.createSQLQuery("truncate table users");
+            query.executeUpdate();
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
             e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
