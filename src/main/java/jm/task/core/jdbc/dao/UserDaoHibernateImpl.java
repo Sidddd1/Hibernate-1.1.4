@@ -14,15 +14,17 @@ import java.util.List;
 import java.util.Queue;
 
 public class UserDaoHibernateImpl implements UserDao {
-//    private static SessionFactory sessionFactory = Util.getSessionFactory();
+    //    private static SessionFactory sessionFactory = Util.getSessionFactory();
     private static SessionFactory sessionFactory = Util.getInstance().getSessionFactory();
+
     public UserDaoHibernateImpl() {
     }
 
     @Override
     public void createUsersTable() {
+        Session session = null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             session.createSQLQuery("create table if not exists Users (" +
                     "ID bigint primary key auto_increment," +
@@ -32,23 +34,35 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public void dropUsersTable() {
+        Session session = null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             session.createSQLQuery("drop table if exists Users").executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
+        Session session = null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             session.save(new User(name, lastName, age));
             session.getTransaction().commit();
@@ -56,12 +70,18 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public void removeUserById(long id) {
+        Session session = null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             User u = new User();
             u.setId(id);
@@ -71,19 +91,29 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public List<User> getAllUsers() {
+        Session session = null;
         List<User> list = new ArrayList<>();
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             list = session.createQuery("from User").list();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+            return list;
         }
-        return list;
     }
 
     @Override
@@ -99,7 +129,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-            e.printStackTrace();
+//            e.printStackTrace();
         } finally {
             if (session != null) {
                 session.close();
