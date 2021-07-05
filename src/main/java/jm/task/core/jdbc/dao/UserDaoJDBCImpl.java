@@ -29,7 +29,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 try {
                     statement.close();
                 } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+
                 }
                 try {
                     if (connection != null) {
