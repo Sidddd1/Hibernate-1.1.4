@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Queue;
 
 public class UserDaoHibernateImpl implements UserDao {
-    //    private static SessionFactory sessionFactory = Util.getSessionFactory();
     private static SessionFactory sessionFactory = Util.getInstance().getSessionFactory();
 
     public UserDaoHibernateImpl() {
@@ -31,12 +30,19 @@ public class UserDaoHibernateImpl implements UserDao {
                     "Name varchar(15) not null," +
                     "LastName varchar(15)," +
                     "Age tinyint)").executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HibernateException e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
         }
         finally {
             if (session != null) {
-                session.close();
+                try{
+                    session.close();
+                }
+                catch (Exception e) {
+
+                }
             }
         }
     }
@@ -48,12 +54,19 @@ public class UserDaoHibernateImpl implements UserDao {
             session = sessionFactory.openSession();
             session.beginTransaction();
             session.createSQLQuery("drop table if exists Users").executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HibernateException e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
         }
         finally {
             if (session != null) {
-                session.close();
+                try{
+                    session.close();
+                }
+                catch (Exception e) {
+
+                }
             }
         }
     }
@@ -67,12 +80,19 @@ public class UserDaoHibernateImpl implements UserDao {
             session.save(new User(name, lastName, age));
             session.getTransaction().commit();
             System.out.println("User с именем – " + name + " добавлен в базу данных");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HibernateException e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
         }
         finally {
             if (session != null) {
-                session.close();
+                try{
+                    session.close();
+                }
+                catch (Exception e) {
+
+                }
             }
         }
     }
@@ -88,12 +108,19 @@ public class UserDaoHibernateImpl implements UserDao {
             session.delete(u);
             session.getTransaction().commit();
             System.out.println("User с ID – " + id + " удалён");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HibernateException e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
         }
         finally {
             if (session != null) {
-                session.close();
+                try{
+                    session.close();
+                }
+                catch (Exception e) {
+
+                }
             }
         }
     }
@@ -106,11 +133,18 @@ public class UserDaoHibernateImpl implements UserDao {
             session = sessionFactory.openSession();
             session.beginTransaction();
             list = session.createQuery("from User").list();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HibernateException e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
         } finally {
             if (session != null) {
-                session.close();
+                try{
+                    session.close();
+                }
+                catch (Exception e) {
+
+                }
             }
             return list;
         }
@@ -129,10 +163,14 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-//            e.printStackTrace();
         } finally {
             if (session != null) {
-                session.close();
+                try{
+                    session.close();
+                }
+                catch (Exception e) {
+
+                }
             }
         }
     }
