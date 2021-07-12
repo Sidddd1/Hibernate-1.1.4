@@ -34,6 +34,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
+            e.printStackTrace();
         } finally {
             try {
                 if (session != null) {
@@ -44,7 +45,6 @@ public class UserDaoHibernateImpl implements UserDao {
             }
         }
     }
-
 
     @Override
     public void dropUsersTable() {
@@ -57,6 +57,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
+            e.printStackTrace();
         } finally {
             try {
                 if (session != null) {
@@ -81,6 +82,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
+            e.printStackTrace();
         } finally {
             try {
                 if (session != null) {
@@ -108,6 +110,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
+            e.printStackTrace();
         } finally {
             try {
                 if (session != null) {
@@ -132,6 +135,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
+            e.printStackTrace();
         } finally {
             try {
                 if (session != null) {
@@ -158,6 +162,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
+            e.printStackTrace();
         } finally {
             try {
                 if (session != null) {
