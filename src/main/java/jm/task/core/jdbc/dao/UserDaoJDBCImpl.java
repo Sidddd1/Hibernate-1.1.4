@@ -25,13 +25,15 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (statement != null) {
-                try {
+            try {
+                if (statement != null) {
                     statement.close();
-                    connection.close();
-                } catch (SQLException throwables) {
-
                 }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException throwables) {
+
             }
         }
     }
@@ -48,16 +50,19 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (statement != null) {
-                try {
+            try {
+                if (statement != null) {
                     statement.close();
-                    connection.close();
-                } catch (SQLException throwables) {
-
                 }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException throwables) {
+
             }
         }
     }
+
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
@@ -75,16 +80,19 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (preparedStatement != null) {
-                try {
+            try {
+                if (preparedStatement != null) {
                     preparedStatement.close();
-                    connection.close();
-                } catch (SQLException throwables) {
-
                 }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException throwables) {
+
             }
         }
     }
+
 
     @Override
     public void removeUserById(long id) {
@@ -99,16 +107,19 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (preparedStatement1 != null) {
-                try {
+            try {
+                if (preparedStatement1 != null) {
                     preparedStatement1.close();
-                    connection.close();
-                } catch (SQLException throwables) {
-
                 }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException throwables) {
+
             }
         }
     }
+
 
     @Override
     public List<User> getAllUsers() {
@@ -132,23 +143,20 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-            if (statement != null) {
-                try {
+            try {
+                if (statement != null) {
                     statement.close();
+                }
+                if (connection != null) {
                     connection.close();
-                } catch (SQLException throwables) {
-
                 }
-                try {
-                    if (resultSet != null) {
-                        resultSet.close();
-                    }
-
-                } catch (Exception e) {
-
+                if (resultSet != null) {
+                    resultSet.close();
                 }
+            } catch (SQLException throwables) {
+
             }
+
         }
         return list;
 
@@ -165,16 +173,19 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (statement != null) {
-                try {
+            try {
+                if (statement != null) {
                     statement.close();
-                    connection.close();
-                } catch (SQLException throwables) {
-
                 }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException throwables) {
+
             }
         }
     }
+
 
     @Override
     public List<User> getPeopleOlderThan(byte age) {

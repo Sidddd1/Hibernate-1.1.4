@@ -34,18 +34,17 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-        }
-        finally {
-            if (session != null) {
-                try{
+        } finally {
+            try {
+                if (session != null) {
                     session.close();
                 }
-                catch (Exception e) {
+            } catch (Exception e) {
 
-                }
             }
         }
     }
+
 
     @Override
     public void dropUsersTable() {
@@ -58,18 +57,16 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-        }
-        finally {
-            if (session != null) {
-                try{
+        } finally {
+            try {
+                if (session != null) {
                     session.close();
                 }
-                catch (Exception e) {
+                } catch (Exception e) {
 
                 }
             }
         }
-    }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
@@ -84,18 +81,17 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-        }
-        finally {
-            if (session != null) {
-                try{
+        } finally {
+            try {
+                if (session != null) {
                     session.close();
                 }
-                catch (Exception e) {
+                } catch (Exception e) {
 
                 }
             }
         }
-    }
+
 
     @Override
     public void removeUserById(long id) {
@@ -112,18 +108,17 @@ public class UserDaoHibernateImpl implements UserDao {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-        }
-        finally {
-            if (session != null) {
-                try{
+        } finally {
+            try {
+                if (session != null) {
                     session.close();
                 }
-                catch (Exception e) {
+                } catch (Exception e) {
 
                 }
             }
         }
-    }
+
 
     @Override
     public List<User> getAllUsers() {
@@ -138,17 +133,17 @@ public class UserDaoHibernateImpl implements UserDao {
                 session.getTransaction().rollback();
             }
         } finally {
-            if (session != null) {
-                try{
+            try {
+                if (session != null) {
                     session.close();
                 }
-                catch (Exception e) {
+                } catch (Exception e) {
 
                 }
             }
             return list;
         }
-    }
+
 
     @Override
     public void cleanUsersTable() {
@@ -164,16 +159,16 @@ public class UserDaoHibernateImpl implements UserDao {
                 session.getTransaction().rollback();
             }
         } finally {
-            if (session != null) {
-                try{
+            try {
+                if (session != null) {
                     session.close();
                 }
-                catch (Exception e) {
+                } catch (Exception e) {
 
                 }
             }
         }
-    }
+
 
     @Override
     public List<User> getPeopleOlderThan(byte age) {
